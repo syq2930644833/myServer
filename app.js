@@ -9,13 +9,10 @@ const cors = require('koa2-cors')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const test = require('./routes/test')
 
 // error handler
 onerror(app)
-
-// routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
 
 app.use(cors())
 
@@ -30,6 +27,11 @@ app.use(require('koa-static')(__dirname + '/public'))
 app.use(views(__dirname + '/views', {
   extension: 'pug'
 }))
+
+// routes
+app.use(index.routes(), index.allowedMethods())
+app.use(users.routes(), users.allowedMethods())
+app.use(test.routes(), test.allowedMethods())
 
 // logger
 app.use(async (ctx, next) => {

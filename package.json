@@ -23,6 +23,7 @@
     "koa-views": "^6.3.1",
     "koa-xml-body": "^2.2.0",
     "koa2-cors": "^2.0.6",
+    "moment": "^2.29.1",
     "mongoose": "^5.10.13",
     "pug": "^2.0.3",
     "supervisor": "^0.12.0"
