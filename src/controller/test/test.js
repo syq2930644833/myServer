@@ -1,26 +1,33 @@
 const exhibitionTestService = require('../../services/test/test')
+let utils = require('../../utils/utils')
 
 class exhibitionTestController {
-    static async createArticleTitle(ctx){
-        let data = ctx.request.body
-        const result = await exhibitionTestService.createArticleTitle(data)
-        ctx.status = 200
-        ctx.body = {
-            "data": result,
-            // "message": msg ? msg : null,
-            // "resultCode": resultCode === 0 ? 0 : 1
+    static async createArticle(ctx){
+        try {
+            let data = ctx.request.body
+            const result = await exhibitionTestService.createArticle(data)
+            return utils.getResult(ctx,result,'保存成功。',1)
+        } catch (error) {
+            return utils.getError(ctx,error)
         }
-        return ctx
     }
     static async findArticle(ctx){
-        const result = await exhibitionTestService.findArticle()
-        ctx.status = 200
-        ctx.body = {
-            "data": result,
-            // "message": msg ? msg : null,
-            "code": result.length ? 2000 : 5001
+        try {
+            const {user_id, page, limit} = ctx.request.query
+            const {result, count} = await exhibitionTestService.findArticle(user_id, page, limit)
+            return utils.getResult(ctx,result,'查询成功。',1, count)
+        } catch (error) {
+            return utils.getError(ctx,error)
         }
-        return ctx
+    }
+    static async findArticlebyId(ctx){
+        try {
+            const {id} = ctx.request.query
+            const result = await exhibitionTestService.findArticlebyId(id)
+            return utils.getResult(ctx,result,'查询成功。',1)
+        } catch (error) {
+            return utils.getError(ctx,error)
+        }
     }
 }
 

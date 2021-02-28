@@ -1,5 +1,32 @@
 let moment = require('moment')
+const { count } = require('../model/test/test')
 
+
+const loginSuccess = (ctx, data, token, msg, resultCode) => {
+    ctx.status = 200
+    return ctx.body = {
+        "code": 2000,
+        "data": data,
+        "token": token,
+        "message": msg ? msg : '登录成功!',
+        "resultCode": resultCode === 0 ? 0 : 1
+    } 
+}
+/**
+ * 登录失败
+ * @param {*} ctx 
+ * @param {*} data 
+ * @param {*} msg 
+ * @param {*} resultCode 
+ */
+const loginError = (ctx, msg, resultCode) => {
+    ctx.status = 200
+    return ctx.body = {
+        "code": 4000,
+        "message": msg ? msg : '登陆失败,请重试!',
+        "resultCode": resultCode === 0 ? 0 : 1
+    } 
+}
 /**
  * 返回结果
  * @param {*} ctx 
@@ -7,13 +34,25 @@ let moment = require('moment')
  * @param {*} msg msg
  * @param {*} resultCode 
  */
-const getResult = (ctx, data, msg, resultCode) => {
+const getResult = (ctx, data, msg, resultCode, count) => {
     ctx.status = 200
-    return ctx.body = {
-        "data": data,
-        "message": msg ? msg : null,
-        "resultCode": resultCode === 0 ? 0 : 1
+    if(count){
+        return ctx.body = {
+            "code": 2000,
+            "data": data,
+            "total": count,
+            "message": msg ? msg : null,
+            "resultCode": resultCode === 0 ? 0 : 1
+        } 
+    }else{
+        return ctx.body = {
+            "code": 2000,
+            "data": data,
+            "message": msg ? msg : null,
+            "resultCode": resultCode === 0 ? 0 : 1
+        } 
     }
+    
 }
 
 /**
@@ -56,9 +95,23 @@ const toLine = (data) => {
     return data.replace(/([A-Z])/g, "_$1").toLowerCase()
 }
 
-module.exports = 
+/**
+ * 格式化时间
+ * @param {*} date 需要转换数据格式的数据
+ */
+function rTime(date) {
+    var json_date = new Date(date).toJSON();
+    return new Date(new Date(json_date) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+  }
+
+module.exports = {
+    loginSuccess,
+    loginError,
     getResult,
     getError,
     formatTime,
     toCamel,
-    toLine
+    toLine,
+    rTime
+}
+

@@ -4,15 +4,19 @@ const mongoose = require('../../../db')
 let Schema = mongoose.Schema
 
 let exhibitionSchema = new Schema({
+    user_id: String,
     title: String,
     author: String,
     introduction: String,
-    // comments: [{ body: String, date: Date }],
+    comments: {
+        commentStr:{type:String,default: ''},
+        commentHtml:{type:String,default: ''}
+    },
     date: { type: Date, default: Date.now },
-    hidden: Boolean,
+    hidden: {type:Boolean,default: false},
     meta: {
-        votes: Number
-        //   favs:  Number
+        votes: {type:Number,default: 0},
+        favs:  {type:Number,default: 0}
     }
 })
 
@@ -23,7 +27,7 @@ module.exports = exhibitionTest
 // exhibitionTest.create({
 //     title: '测试用例',
 //     author: '壹朵小花吖',
-//     introduction: '测试用例',
+//     introduction: '测试用例1181',
 //     hidden: false,
 //     meta: {
 //         votes: 1334
