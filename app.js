@@ -6,10 +6,7 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const cors = require('koa2-cors')
-
-const index = require('./routes/index')
-const users = require('./routes/users')
-const test = require('./routes/test')
+const router = require('./routes/index')
 
 // error handler
 onerror(app)
@@ -29,9 +26,9 @@ app.use(views(__dirname + '/views', {
 }))
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
-app.use(test.routes(), test.allowedMethods())
+for(let item in router){
+  app.use(router[item].routes(), router[item].allowedMethods())
+}
 
 // logger
 app.use(async (ctx, next) => {

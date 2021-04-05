@@ -6,7 +6,7 @@ class testServices{
         return result
     }
     static async findArticle(user_id, page, limit){
-        let result = await exhibitionTest.find({user_id:user_id},{comments:0}).skip((page - 0 - 1)*(limit - 0)).limit(limit - 0)
+        let result = await exhibitionTest.find({user_id:user_id},{comments:0}).sort({date:-1}).skip((page - 0 - 1)*(limit - 0)).limit(limit - 0)
         let count = await exhibitionTest.count({user_id:user_id})
         return {result,count}
     }

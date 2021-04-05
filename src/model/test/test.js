@@ -8,6 +8,7 @@ let exhibitionSchema = new Schema({
     title: String,
     author: String,
     introduction: String,
+    type:String,
     comments: {
         commentStr:{type:String,default: ''},
         commentHtml:{type:String,default: ''}
